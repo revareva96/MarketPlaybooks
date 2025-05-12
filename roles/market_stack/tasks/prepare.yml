@@ -1,0 +1,7 @@
+- name: "Create deploy dirs"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0644"
+  with_items:
+    - "{{ INSTALL_DIR }}"

@@ -1,0 +1,7 @@
+- name: "Prepare for deploy"
+  ansible.builtin.import_tasks: prepare.yml
+  tags: ["prepare_deploy"]
+
+- name: "Deploy app stack"
+  ansible.builtin.import_tasks: deploy.yml
+  tags: ["market_deploy"]

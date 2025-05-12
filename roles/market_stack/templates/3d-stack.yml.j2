@@ -1,0 +1,70 @@
+version: '3.8'
+
+networks:
+  {{  SWARM_NETWORK_NAME }}:
+    external: true
+
+services:
+  {{ BACK_FQDN }}:
+    image: {{ BACK_IMAGE }}
+    deploy:
+      replicas: {{ groups['market'] | length }}
+    environment:
+      SPRING_R2DBC_URL: r2dbc:postgresql://{{ DB_FQDN }}:{{ DB_PORT }}/{{ BACK_DATABASE }}
+      SPRING_R2DBC_USERNAME: {{ DB_USER }}
+      SPRING_R2DBC_PASSWORD: {{ DB_PASSWORD }}
+      FLYWAY_URL: jdbc:postgresql://{{ DB_FQDN }}:{{ DB_PORT }}/{{ BACK_DATABASE }}
+      FLYWAY_USER: {{ DB_USER }}
+      FLYWAY_PASSWORD: {{ DB_PASSWORD }}
+
+      S3_ACCESS-KEY: {{ S3_ACCESS_KEY }}
+      S3_SECRET-KEY: {{ S3_SECRET_KEY }}
+      S3_ENDPOINT: http://{{ S3_FQDN }}:{{ S3_PORT }}
+      S3_REGION: {{ S3_REGION }}
+      S3_PARTICIPANT_BUCKET_NAME: {{ BACK_S3_PARTICIPANT_BUCKET_NAME }}
+      S3_PRODUCT_BUCKET_NAME: {{ BACK_S3_PRODUCT_BUCKET_NAME }}
+      S3_SYSTEM_BUCKET_NAME: {{ BACK_S3_SYSTEM_BUCKET_NAME }}
+      S3_ORDER_BUCKET_NAME: {{ BACK_S3_ORDER_BUCKET_NAME }}
+
+      APP_MAX_PARTICIPANT_IMAGES: {{ BACK_MAX_PARTICIPANT_IMAGES }}
+      APP_MAX_PRODUCT_IMAGES: {{ BACK_MAX_PRODUCT_IMAGES }}
+      APP_PRIVATE_KEY_PATH: {{ BACK_PRIVATE_KEY_PATH }}
+      APP_PUBLIC_KEY_PATH: {{ BACK_PUBLIC_KEY_PATH }}
+    volumes:
+      - type: bind
+        source: {{ INSTALL_DIR }}/{{ KEYS_DIR }}
+        target: {{ BACK_PRIVATE_PATH }}
+    ports:
+      - {{ BACK_PORT }}:{{ BACK_PORT }}
+    networks:
+      - {{ SWARM_NETWORK_NAME }}
+
+  3dfront:
+    image: atupenov/frontend_app:v1.3
+    deploy:
+      replicas: {{ groups['market'] | length }}
+    ports:
+      - {{ FRONT_PORT }}:{{ FRONT_PORT }}
+    networks:
+      - {{ SWARM_NETWORK_NAME }}
+
+  3dlistner:
+    image: {{ LISTENER_IMAGE }}
+    deploy:
+      replicas: {{ groups['market'] | length }}
+    environment:
+      TELEGRAM_MARKET_API_ID: {{ LISTENER_TELEGRAM_API_ID }}
+      TELEGRAM_MARKET_API_HASH: {{ LISTENER_TELEGRAM_API_HASH }}
+      TELEGRAM_MARKET_CHANNEL_USERNAME: "{{ LISTENER_CHANNEL_USERNAME }}"
+      TELEGRAM_MARKET_BOT_TOKEN: "{{ LISTENER_TELEGRAM_BOT_TOKEN }}"
+      TELEGRAM_MARKET_PATH: {{ LISTENER_IMAGES_PATH }}
+      MARKET_CLIENT_BASE_URL: {{ LISTENER_MARKET_BASE_URL }}
+      MARKET_CLIENT_LOGIN: {{ LISTENER_MARKET_LOGIN }}
+      MARKET_CLIENT_PASSWORD: {{ LISTENER_MARKET_PASSWORD }}
+      FILE_HANDLER_PATH: {{ LISTENER_IMAGES_PATH }}
+    volumes:
+      - type: bind
+        source: {{ INSTALL_DIR }}/{{ SESSIONS_DIR }}/session_name.session
+        target: /src/session_name.session
+    networks:
+      - {{ SWARM_NETWORK_NAME }}

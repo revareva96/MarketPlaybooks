@@ -1,0 +1,12 @@
+- name: "Create default swarm network"
+  docker_network:
+    name: "{{ SWARM_NETWORK_NAME }}"
+    attachable: false
+    driver: overlay
+    internal: yes
+    state: absent
+    driver_options:
+      encrypted: ""
+  when: RECREATE_STACK | default(false)
+
+  

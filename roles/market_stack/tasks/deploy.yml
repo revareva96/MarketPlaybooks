@@ -1,0 +1,25 @@
+- name: "Copy session files"
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../files/{{ item }}"
+    dest: "{{ INSTALL_DIR }}"
+    mode: "0644"
+  with_items:
+    - "{{ SESSIONS_DIR }}"
+    - "{{ KEYS_DIR }}"
+
+- name: "Template docker compose file"
+  ansible.builtin.template:
+    src: "3d-stack.yml.j2"
+    dest: "{{ INSTALL_DIR }}/3d-stack.yml"
+    mode: "0644"
+  run_once: true
+
+- name: "Deploy stack from a compose file"
+  docker_stack:
+    state: present
+    name: 3d-app
+    with_registry_auth: true
+    compose:
+      - "{{ INSTALL_DIR }}/3d-stack.yml"
+  run_once: true
+

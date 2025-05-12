@@ -1,0 +1,7 @@
+- name: "Create networks"
+  ansible.builtin.import_tasks: network.yml
+  tags: ["docker_network"]
+
+- name: "Login to registry"
+  ansible.builtin.import_tasks: login.yml
+  tags: ["docker_login"]
