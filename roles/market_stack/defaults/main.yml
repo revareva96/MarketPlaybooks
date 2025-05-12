@@ -1,2 +1,21 @@
+# file path vars
+INSTALL_DIR: "/opt/3dmarket"
+SESSIONS_DIR: "sessions"
+KEYS_DIR: "keys"
+
+# back default vars
+BACK_FQDN: 3dback
+BACK_PORT: 8081
+
+BACK_MAX_PARTICIPANT_IMAGES: 1
+BACK_MAX_PRODUCT_IMAGES: 4
+BACK_PRIVATE_PATH: "/backend/keys"
+BACK_PRIVATE_KEY_PATH: "{{ BACK_PRIVATE_PATH }}/private.pk8"
+BACK_PUBLIC_KEY_PATH: "{{ BACK_PRIVATE_PATH }}/public.key"
+
+# front vars
+FRONT_PORT: 3000
+
+# listeners default vars
 LISTENER_IMAGES_PATH: "images"
 LISTENER_MARKET_BASE_URL: "http://3dback:8081"

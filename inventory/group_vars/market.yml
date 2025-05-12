@@ -1,11 +1,6 @@
 # common vars
 SWARM_NETWORK_NAME: "3d-network"
-RECREATE_STACK: false
 
-# docker stack role vars
-INSTALL_DIR: "/opt/3dmarket"
-SESSIONS_DIR: "sessions"
-KEYS_DIR: "keys"
 
 # 3dBack envs
 BACK_IMAGE: ready555/model_store:v1.6.2
@@ -48,9 +43,6 @@ S3_SECRET_KEY: !vault |
 S3_REGION: "us-east-1"
 
 # back envs
-BACK_FQDN: 3dback
-BACK_PORT: 8081
-
 BACK_DATABASE: "model_store"
 
 BACK_S3_PARTICIPANT_BUCKET_NAME: "participant-bucket"
@@ -58,15 +50,9 @@ BACK_S3_PRODUCT_BUCKET_NAME: "product-bucket"
 BACK_S3_SYSTEM_BUCKET_NAME: "system-bucket"
 BACK_S3_ORDER_BUCKET_NAME: "order-bucket"
 
-BACK_MAX_PARTICIPANT_IMAGES: 1
-BACK_MAX_PRODUCT_IMAGES: 4
-BACK_PRIVATE_PATH: "/backend/keys"
-BACK_PRIVATE_KEY_PATH: "{{ BACK_PRIVATE_PATH }}/private.pk8"
-BACK_PUBLIC_KEY_PATH: "{{ BACK_PRIVATE_PATH }}/public.key"
 
 # 3dFront envs
 FRONT_IMAGE: atupenov/frontend_app:v1.3
-FRONT_PORT: 3000
 
 # 3dListener envs
 LISTENER_IMAGE: "revareva96/market_listener:0.1.4"

@@ -1,1 +1,2 @@
 DOCKER_REGISTRY_HOST: "docker.com"
+RECREATE_STACK: false
