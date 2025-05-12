@@ -1,0 +1,29 @@
+version: '3.8'
+
+networks:
+  {{  SWARM_NETWORK_NAME }}:
+    external: true
+
+volumes:
+  caddy_data:
+    driver: local
+  caddy_config:
+    driver: local
+
+services:
+  caddy:
+    image: {{ CADDY_IMAGE }}
+    deploy:
+      replicas: {{ groups['market'] | length }}
+      restart_policy:
+        condition: any
+    volumes:
+      - {{ INSTALL_DIR }}/{{ CERTS_DIR }}:/root/certs
+      - {{ INSTALL_DIR }}/{{ CADDY_DIR }}/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    ports:
+      - {{ CADDY_PORT }}:{{ CADDY_PORT }}
+      - {{ CADDY_TLS_PORT }}:{{ CADDY_TLS_PORT }}
+    networks:
+      - {{ SWARM_NETWORK_NAME }}

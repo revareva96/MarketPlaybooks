@@ -1,0 +1,8 @@
+# files path vars
+CADDY_DIR: "caddy"
+CERTS_DIR: "certs"
+
+# default caddy vars
+CADDY_IMAGE: caddy:latest
+CADDY_PORT: 80
+CADDY_TLS_PORT: 443

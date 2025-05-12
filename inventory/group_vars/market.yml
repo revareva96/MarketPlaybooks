@@ -1,5 +1,6 @@
 # common vars
 SWARM_NETWORK_NAME: "3d-network"
+INSTALL_DIR: "/opt/3dmarket"
 
 
 # 3dBack envs

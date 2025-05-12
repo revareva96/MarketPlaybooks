@@ -1,5 +1,4 @@
 # file path vars
-INSTALL_DIR: "/opt/3dmarket"
 SESSIONS_DIR: "sessions"
 KEYS_DIR: "keys"
 

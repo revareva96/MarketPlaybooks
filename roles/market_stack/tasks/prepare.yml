@@ -1,4 +1,4 @@
-- name: "Create deploy dirs"
+- name: "Create deploy dirs"  # todo - move to common
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
