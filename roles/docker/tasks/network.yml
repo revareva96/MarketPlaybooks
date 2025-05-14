@@ -8,5 +8,6 @@
     driver_options:
       encrypted: ""
   when: RECREATE_STACK | default(false)
+  run_once: true
 
   

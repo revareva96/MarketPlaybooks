@@ -3,18 +3,19 @@
     src: "{{ playbook_dir }}/../files/{{ item }}"
     dest: "{{ INSTALL_DIR }}"
     mode: "0644"
+  run_once: true
   with_items:
     - "{{ SESSIONS_DIR }}"
     - "{{ KEYS_DIR }}"
 
-- name: "Template docker compose file"
+- name: "Template docker compose app file"
   ansible.builtin.template:
     src: "3d-stack.yml.j2"
     dest: "{{ INSTALL_DIR }}/3d-stack.yml"
     mode: "0644"
   run_once: true
 
-- name: "Deploy stack from a compose file"
+- name: "Deploy app stack from a compose file"
   docker_stack:
     state: present
     name: 3d-app
