@@ -1,0 +1,15 @@
+- name: "Template docker compose postgres file"
+  ansible.builtin.template:
+    src: "3d-postgres-stack.yml.j2"
+    dest: "{{ INSTALL_DIR }}/3d-postgres-stack.yml"
+    mode: "0644"
+  run_once: true
+
+- name: "Deploy db stack from a compose file"
+  docker_stack:
+    state: present
+    name: 3d-db
+    with_registry_auth: true
+    compose:
+      - "{{ INSTALL_DIR }}/3d-postgres-stack.yml"
+  run_once: true

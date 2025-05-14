@@ -1,0 +1,41 @@
+version: '3.8'
+
+networks:
+  {{  SWARM_NETWORK_NAME }}:
+    external: true
+
+volumes:
+  postgres_data:
+    driver: local
+
+services:
+  {{ POSTGRES_FQDN }}:
+    image: {{ POSTGRES_IMAGE }}
+    deploy:
+      replicas: {{ groups['market'] | length }}
+      restart_policy:
+        condition: any
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: {{ POSTGRES_USER }}
+      POSTGRES_PASSWORD: {{ POSTGRES_PASSWORD }}
+      POSTGRES_DB: {{ POSTGRES_DB }}
+      TZ: Europe/Moscow
+    ports:
+      - {{ POSTGRES_PORT }}:{{ POSTGRES_PORT }}
+    networks:
+      - {{  SWARM_NETWORK_NAME }}
+
+  pgadmin:
+    image: {{ PGADMIN_IMAGE }}
+    deploy:
+      replicas: {{ groups['market'] | length }}
+    environment:
+      PGADMIN_DEFAULT_EMAIL: {{ PGADMIN_DEFAULT_EMAIL }}
+      PGADMIN_DEFAULT_PASSWORD: {{ PGADMIN_DEFAULT_PASSWORD }}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - {{ PGADMIN_HOST_PORT }}:{{ PGADMIN_CONTAINER_PORT }}
+    networks:
+      - 3d-network
