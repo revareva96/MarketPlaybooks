@@ -1,0 +1,3 @@
+- name: "Deploy minio stack"
+  ansible.builtin.import_tasks: minio.yml
+  tags: ["minio_deploy"]

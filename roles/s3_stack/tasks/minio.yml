@@ -1,0 +1,15 @@
+- name: "Template docker compose minio file"
+  ansible.builtin.template:
+    src: "3d-minio-stack.yml.j2"
+    dest: "{{ INSTALL_DIR }}/3d-minio-stack.yml"
+    mode: "0644"
+  run_once: true
+
+- name: "Deploy minio stack from a compose file"
+  docker_stack:
+    state: present
+    name: 3d-minio
+    with_registry_auth: true
+    compose:
+      - "{{ INSTALL_DIR }}/3d-minio-stack.yml"
+  run_once: true

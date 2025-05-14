@@ -1,0 +1,27 @@
+version: '3.8'
+
+networks:
+  {{  SWARM_NETWORK_NAME }}:
+    external: true
+
+volumes:
+  minio_data:
+    driver: local
+
+services:
+  {{ MINIO_FQDN }}:
+    image: {{ MINIO_IMAGE }}
+    command: ["minio",  "server",  "/data"]
+    ports:
+      - {{ MINIO_PORT_INTERNAL }}:{{ MINIO_PORT_INTERNAL }}
+      - {{ MINIO_CONSOLE_PORT }}:{{ MINIO_CONSOLE_PORT }}
+    environment:
+      MINIO_SERVER_URL: http://{{ MINIO_FQDN }}:{{ MINIO_PORT_INTERNAL }}
+      MINIO_ROOT_USER: {{ MINIO_ROOT_USER }}
+      MINIO_ROOT_PASSWORD: {{ MINIO_ROOT_PASSWORD }}
+      MINIO_ADDRESS: ':{{ MINIO_PORT_INTERNAL }}'
+      MINIO_CONSOLE_ADDRESS: ':{{ MINIO_CONSOLE_PORT }}'
+    volumes:
+      - minio_data:/data
+    networks:
+      - 3d-network
