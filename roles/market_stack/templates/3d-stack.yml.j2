@@ -40,7 +40,7 @@ services:
       - {{ SWARM_NETWORK_NAME }}
 
   3dfront:
-    image: atupenov/frontend_app:v1.3
+    image: {{ FRONT_IMAGE }}
     deploy:
       replicas: {{ groups['market'] | length }}
     ports:
