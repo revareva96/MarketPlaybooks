@@ -1,0 +1,26 @@
+version: '3.8'
+
+networks:
+  {{  SWARM_NETWORK_NAME }}:
+    external: true
+
+services:
+  nginx:
+    image: {{ NGINX_IMAGE }}
+    deploy:
+      replicas: {{ groups['market'] | length }}
+      restart_policy:
+        condition: any
+    volumes:
+      - type: bind
+        source: {{ INSTALL_DIR }}/nginx.conf
+        target: /etc/nginx/nginx.conf
+    ports:
+      - mode: ingress
+        protocol: tcp
+        published: {{ NGINX_PORT }}
+        target: {{ NGINX_PORT }}
+    environment:
+      TZ: {{ system.TIMEZONE | default("Europe/Moscow") }}
+    networks:
+      - {{ SWARM_NETWORK_NAME }}

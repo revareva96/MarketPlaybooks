@@ -16,6 +16,15 @@
     - role: caddy_stack
   tags: caddy
 
+# - hosts: market
+#   any_errors_fatal: true
+#   become: true
+#   gather_facts: true
+
+#   roles:
+#     - role: nginx_stack
+#   tags: nginx
+
 - hosts: market
   any_errors_fatal: true
   become: true
@@ -43,9 +52,4 @@
     - role: market_stack
   tags: market
 
-
-# - hosts: all
-#   tasks:
-#     - debug:
-#         var: INSTALL_DIR
 

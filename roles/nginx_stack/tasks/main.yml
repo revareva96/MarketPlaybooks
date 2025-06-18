@@ -1,0 +1,22 @@
+- name: "Copy required for caddy stack objs"
+  ansible.builtin.template:
+    src: "3d-nginx-stack.yml.j2"
+    dest: "{{ INSTALL_DIR }}/3d-nginx-stack.yml"
+    mode: "0644"
+  run_once: true
+
+- name: "Copy required for caddy stack objs"
+  ansible.builtin.template:
+    src: "nginx.conf.j2"
+    dest: "{{ INSTALL_DIR }}/nginx.conf"
+    mode: "0644"
+  run_once: true
+
+- name: "Deploy nginx stack from a compose file"
+  docker_stack:
+    state: present
+    name: 3d-nginx
+    with_registry_auth: true
+    compose:
+      - "{{ INSTALL_DIR }}/3d-nginx-stack.yml"
+  run_once: true
