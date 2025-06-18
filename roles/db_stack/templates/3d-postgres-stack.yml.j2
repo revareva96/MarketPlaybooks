@@ -24,6 +24,7 @@ services:
       TZ: Europe/Moscow
     ports:
       - {{ POSTGRES_PORT }}:{{ POSTGRES_PORT }}
+      # todo add condition to open port
     networks:
       - {{  SWARM_NETWORK_NAME }}
 
