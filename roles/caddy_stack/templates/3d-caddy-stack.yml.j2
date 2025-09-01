@@ -19,11 +19,13 @@ services:
         condition: any
     volumes:
       - {{ INSTALL_DIR }}/{{ CERTS_DIR }}:/root/certs
-      - {{ INSTALL_DIR }}/{{ CADDY_DIR }}/Caddyfile:/etc/caddy/Caddyfile:ro
+      - {{ INSTALL_DIR }}/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
     ports:
-      - {{ CADDY_PORT }}:{{ CADDY_PORT }}
       - {{ CADDY_TLS_PORT }}:{{ CADDY_TLS_PORT }}
+{% if dev_mode | default(False) %}
+      - {{ CADDY_DEV_PORT }}:{{ CADDY_DEV_PORT }}
+{% endif %}
     networks:
       - {{ SWARM_NETWORK_NAME }}

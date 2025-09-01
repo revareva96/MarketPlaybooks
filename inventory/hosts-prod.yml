@@ -2,7 +2,7 @@ all:
   children:
     market:
       children:
-        test:
+        prod:
           hosts:
-            market-test:
+            market-prod:
               ansible_host: 185.155.17.98

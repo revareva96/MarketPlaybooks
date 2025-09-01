@@ -1,0 +1,30 @@
+{% if dev_mode | default(False) %}
+{
+    http_port {{ CADDY_DEV_PORT }}
+}
+{% endif %}
+
+{{ CADDY_FQDN }} {
+
+    handle {
+      reverse_proxy 3dfront:3000
+    }
+
+    handle_path /internal-api/v1/* {
+      reverse_proxy * 3dback:8081
+    }
+
+{% if dev_mode == False | default(True) %}
+    tls /root/certs/figurzilla-cert.pem /root/certs/figurzilla-key.pem
+{% endif %}
+
+{% if dev_mode | default(False) %}
+    handle_path /swagger-ui* {
+        reverse_proxy 3dback:8081
+    }
+
+    handle /v3/* {
+      reverse_proxy 3dback:8081
+    }
+{% endif %}
+}

@@ -5,8 +5,14 @@
     mode: "0644"
   run_once: true
   with_items:
-    - "{{ CADDY_DIR }}"
     - "{{ CERTS_DIR }}"
+
+- name: "Template Caddyfile"
+  ansible.builtin.template:
+    src: "Caddyfile.j2"
+    dest: "{{ INSTALL_DIR }}/Caddyfile"
+    mode: "0644"
+  run_once: true
 
 - name: "Template docker compose caddy file"
   ansible.builtin.template:

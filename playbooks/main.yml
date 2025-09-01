@@ -16,15 +16,6 @@
     - role: caddy_stack
   tags: caddy
 
-# - hosts: market
-#   any_errors_fatal: true
-#   become: true
-#   gather_facts: true
-
-#   roles:
-#     - role: nginx_stack
-#   tags: nginx
-
 - hosts: market
   any_errors_fatal: true
   become: true
@@ -51,5 +42,3 @@
   roles:
     - role: market_stack
   tags: market
-
-
