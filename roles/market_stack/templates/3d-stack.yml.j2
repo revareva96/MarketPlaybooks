@@ -57,6 +57,12 @@ services:
       - {{ FRONT_PORT }}:{{ FRONT_PORT }}
     networks:
       - {{ SWARM_NETWORK_NAME }}
+    environment:
+      API_URL: {{ FRONT_BASE_URL }}
+    volumes:
+      - type: bind
+        source: {{ INSTALL_DIR }}/config.template.json
+        target: /app/public/config.template.json
 
   3dlistner:
     image: {{ LISTENER_IMAGE }}

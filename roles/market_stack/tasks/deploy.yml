@@ -8,11 +8,14 @@
     - "{{ SESSIONS_DIR }}"
     - "{{ KEYS_DIR }}"
 
-- name: "Template docker compose app file"
+- name: "Template files"
   ansible.builtin.template:
-    src: "3d-stack.yml.j2"
-    dest: "{{ INSTALL_DIR }}/3d-stack.yml"
+    src: "{{ item }}.j2"
+    dest: "{{ INSTALL_DIR }}/{{ item }}"
     mode: "0644"
+  loop:
+    - "3d-stack.yml"
+    - "config.template.json"
   run_once: true
 
 - name: "Deploy app stack from a compose file"

@@ -3,3 +3,6 @@ dev_mode: true
 CADDY_FQDN: "185.155.17.98:8080"
 
 BACK_IMAGE: revareva96/model_store:v1.12.1
+FRONT_IMAGE: "atupenov/frontend_app:v1.8"
+
+FRONT_BASE_URL: "185.155.17.98:8080/internal-api"

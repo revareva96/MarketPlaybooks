@@ -1,1 +1,6 @@
 CADDY_FQDN: "figurzilla.ru"
+
+FRONT_IMAGE: "atupenov/frontend_app:v1.8"
+BACK_IMAGE: revareva96/model_store:v1.12.0
+
+FRONT_BASE_URL: "figurzilla.ru"
